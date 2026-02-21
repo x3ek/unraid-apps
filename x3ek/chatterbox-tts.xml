@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>x3ek-chatterbox-tts</Name>
+  <Repository>ghcr.io/x3ek/chatterbox-tts-api:blackwell</Repository>
+  <Registry>https://github.com/x3ek/unraid-apps/pkgs/container/chatterbox-tts-api</Registry>
+  <Branch>
+    <Tag>blackwell</Tag>
+    <TagDescription>Blackwell GPU (RTX 50xx) compatible build</TagDescription>
+  </Branch>
+  <Branch>
+    <Tag>latest</Tag>
+    <TagDescription>Standard CUDA build</TagDescription>
+  </Branch>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/travisvn/chatterbox-tts-api/issues</Support>
+  <Project>https://github.com/travisvn/chatterbox-tts-api</Project>
+  <Overview>Chatterbox TTS is a GPU-accelerated text-to-speech API server using the Chatterbox model. Supports voice cloning from reference audio files. This image is rebuilt weekly from upstream with Blackwell GPU support.</Overview>
+  <Category>Productivity: Tools:</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/x3ek/unraid-apps/main/x3ek/chatterbox-tts.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/x3ek/unraid-apps/main/images/chatterbox-tts.png</Icon>
+  <ExtraParams>--gpus all</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires>NVIDIA GPU with CUDA support and the NVIDIA Unraid plugin installed.</Requires>
+  <Config Name="Port: API" Target="4123" Default="4123" Mode="tcp" Description="Chatterbox TTS API port" Type="Port" Display="always" Required="true" Mask="false">4123</Config>
+  <Config Name="Path: Model Cache" Target="/cache" Default="/mnt/user/appdata/chatterbox/cache" Mode="rw" Description="Path to store downloaded models" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/chatterbox/cache</Config>
+  <Config Name="Path: Voice Samples" Target="/voices" Default="/mnt/user/appdata/chatterbox/voices" Mode="rw" Description="Path to voice reference audio files for cloning" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/chatterbox/voices</Config>
+  <Config Name="Variable: Device" Target="DEVICE" Default="cuda" Mode="" Description="Compute device (cuda or cpu)" Type="Variable" Display="always" Required="false" Mask="false">cuda</Config>
+  <Config Name="Variable: Exaggeration" Target="EXAGGERATION" Default="0.5" Mode="" Description="Voice exaggeration level (0.0 - 1.0)" Type="Variable" Display="always" Required="false" Mask="false">0.5</Config>
+  <Config Name="Variable: CFG Weight" Target="CFG_WEIGHT" Default="0.5" Mode="" Description="Classifier-free guidance weight" Type="Variable" Display="always" Required="false" Mask="false">0.5</Config>
+  <Config Name="Variable: Temperature" Target="TEMPERATURE" Default="0.8" Mode="" Description="Sampling temperature" Type="Variable" Display="always" Required="false" Mask="false">0.8</Config>
+  <Config Name="Variable: Max Chunk Length" Target="MAX_CHUNK_LENGTH" Default="280" Mode="" Description="Maximum character length per chunk for long text" Type="Variable" Display="advanced" Required="false" Mask="false">280</Config>
+  <Config Name="Variable: Max Total Length" Target="MAX_TOTAL_LENGTH" Default="3000" Mode="" Description="Maximum total character length for input text" Type="Variable" Display="advanced" Required="false" Mask="false">3000</Config>
+  <Config Name="Variable: Use Multilingual Model" Target="USE_MULTILINGUAL_MODEL" Default="false" Mode="" Description="Enable multilingual TTS model (slower but supports more languages)" Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="Variable: NVIDIA Visible Devices" Target="NVIDIA_VISIBLE_DEVICES" Default="all" Mode="" Description="Which GPUs to expose (all, or device index like 0,1)" Type="Variable" Display="advanced" Required="false" Mask="false">all</Config>
+  <Config Name="Variable: NVIDIA Driver Capabilities" Target="NVIDIA_DRIVER_CAPABILITIES" Default="compute,utility" Mode="" Description="NVIDIA driver capabilities to expose" Type="Variable" Display="advanced" Required="false" Mask="false">compute,utility</Config>
+  <Config Name="Variable: Timezone" Target="TZ" Default="America/New_York" Mode="" Description="Container timezone" Type="Variable" Display="advanced" Required="false" Mask="false">America/New_York</Config>
+</Container>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>x3ek-speaches</Name>
+  <Repository>ghcr.io/speaches-ai/speaches:0.9.0-rc.3-cuda</Repository>
+  <Registry>https://github.com/speaches-ai/speaches/pkgs/container/speaches</Registry>
+  <Branch>
+    <Tag>0.9.0-rc.3-cuda</Tag>
+    <TagDescription>Latest CUDA release candidate</TagDescription>
+  </Branch>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/speaches-ai/speaches/issues</Support>
+  <Project>https://github.com/speaches-ai/speaches</Project>
+  <Overview>Speaches is a GPU-accelerated speech-to-text (STT) and text-to-speech (TTS) server with an OpenAI-compatible API. Supports Whisper models for transcription and various TTS engines.</Overview>
+  <Category>Productivity: Tools:</Category>
+  <WebUI>http://[IP]:[PORT:8000]/docs</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/x3ek/unraid-apps/main/x3ek/speaches.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/x3ek/unraid-apps/main/images/speaches.png</Icon>
+  <ExtraParams>--gpus all</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires>NVIDIA GPU with CUDA support and the NVIDIA Unraid plugin installed.</Requires>
+  <Config Name="Port: Web UI / API" Target="8000" Default="8000" Mode="tcp" Description="Web UI and API port" Type="Port" Display="always" Required="true" Mask="false">8000</Config>
+  <Config Name="Path: HuggingFace Cache" Target="/home/ubuntu/.cache/huggingface/hub" Default="/mnt/user/appdata/speaches/cache" Mode="rw" Description="Path to store downloaded models" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/speaches/cache</Config>
+  <Config Name="Variable: STT Model TTL" Target="STT_MODEL_TTL" Default="-1" Mode="" Description="Time-to-live for STT models in seconds (-1 = never unload)" Type="Variable" Display="always" Required="false" Mask="false">-1</Config>
+  <Config Name="Variable: TTS Model TTL" Target="TTS_MODEL_TTL" Default="-1" Mode="" Description="Time-to-live for TTS models in seconds (-1 = never unload)" Type="Variable" Display="always" Required="false" Mask="false">-1</Config>
+  <Config Name="Variable: Preload Models" Target="PRELOAD_MODELS" Default='["Systran/faster-distil-whisper-large-v3"]' Mode="" Description="JSON array of model names to preload at startup" Type="Variable" Display="always" Required="false" Mask="false">["Systran/faster-distil-whisper-large-v3"]</Config>
+  <Config Name="Variable: NVIDIA Visible Devices" Target="NVIDIA_VISIBLE_DEVICES" Default="all" Mode="" Description="Which GPUs to expose (all, or device index like 0,1)" Type="Variable" Display="advanced" Required="false" Mask="false">all</Config>
+  <Config Name="Variable: NVIDIA Driver Capabilities" Target="NVIDIA_DRIVER_CAPABILITIES" Default="compute,utility" Mode="" Description="NVIDIA driver capabilities to expose" Type="Variable" Display="advanced" Required="false" Mask="false">compute,utility</Config>
+  <Config Name="Variable: Timezone" Target="TZ" Default="America/New_York" Mode="" Description="Container timezone" Type="Variable" Display="advanced" Required="false" Mask="false">America/New_York</Config>
+</Container>

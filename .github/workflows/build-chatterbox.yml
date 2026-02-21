@@ -1,0 +1,122 @@
+name: Build Chatterbox TTS API
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force build even if upstream hasn't changed"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+  schedule:
+    - cron: "0 0 * * 0" # Every Sunday at midnight UTC
+
+env:
+  UPSTREAM_REPO: travisvn/chatterbox-tts-api
+  IMAGE_NAME: ghcr.io/x3ek/chatterbox-tts-api
+
+jobs:
+  check-upstream:
+    runs-on: ubuntu-latest
+    outputs:
+      should_build: ${{ steps.compare.outputs.should_build }}
+      upstream_sha: ${{ steps.upstream.outputs.sha }}
+    steps:
+      - name: Get upstream latest commit SHA
+        id: upstream
+        run: |
+          SHA=$(gh api repos/${{ env.UPSTREAM_REPO }}/commits/HEAD --jq .sha)
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "Upstream SHA: $SHA"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get current image revision label
+        id: current
+        run: |
+          # Try to pull the manifest and extract the revision label
+          set +e
+          docker pull ${{ env.IMAGE_NAME }}:latest 2>/dev/null
+          if [ $? -eq 0 ]; then
+            MANIFEST_SHA=$(docker inspect ${{ env.IMAGE_NAME }}:latest --format '{{ index .Config.Labels "org.opencontainers.image.revision" }}' 2>/dev/null)
+          fi
+          set -e
+
+          echo "sha=${MANIFEST_SHA:-none}" >> "$GITHUB_OUTPUT"
+          echo "Current image revision: ${MANIFEST_SHA:-none}"
+
+      - name: Compare and decide
+        id: compare
+        run: |
+          FORCE="${{ github.event.inputs.force || 'false' }}"
+          if [ "$FORCE" = "true" ]; then
+            echo "should_build=true" >> "$GITHUB_OUTPUT"
+            echo "Force build requested"
+          elif [ "${{ steps.current.outputs.sha }}" = "${{ steps.upstream.outputs.sha }}" ]; then
+            echo "should_build=false" >> "$GITHUB_OUTPUT"
+            echo "No upstream changes — skipping build"
+          else
+            echo "should_build=true" >> "$GITHUB_OUTPUT"
+            echo "Upstream changed — building"
+          fi
+
+  build:
+    needs: check-upstream
+    if: needs.check-upstream.outputs.should_build == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        include:
+          - tag: latest
+            dockerfile: Dockerfile
+          - tag: blackwell
+            dockerfile: Dockerfile.blackwell
+    steps:
+      - name: Clone upstream repo
+        run: |
+          git clone https://github.com/${{ env.UPSTREAM_REPO }}.git source
+          cd source
+          git checkout ${{ needs.check-upstream.outputs.upstream_sha }}
+
+      - name: Check for Dockerfile
+        id: check_dockerfile
+        run: |
+          if [ -f "source/${{ matrix.dockerfile }}" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::${{ matrix.dockerfile }} not found in upstream — skipping ${{ matrix.tag }} build"
+          fi
+
+      - name: Set up Docker Buildx
+        if: steps.check_dockerfile.outputs.exists == 'true'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        if: steps.check_dockerfile.outputs.exists == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        if: steps.check_dockerfile.outputs.exists == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: source
+          file: source/${{ matrix.dockerfile }}
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ matrix.tag }}
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ env.UPSTREAM_REPO }}
+            org.opencontainers.image.revision=${{ needs.check-upstream.outputs.upstream_sha }}
+            org.opencontainers.image.description=Chatterbox TTS API (${{ matrix.tag }})
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
