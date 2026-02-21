@@ -74,9 +74,9 @@ jobs:
       matrix:
         include:
           - tag: latest
-            dockerfile: Dockerfile
+            dockerfile: docker/Dockerfile
           - tag: blackwell
-            dockerfile: Dockerfile.blackwell
+            dockerfile: docker/Dockerfile.blackwell
     steps:
       - name: Clone upstream repo
         run: |
