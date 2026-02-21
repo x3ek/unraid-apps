@@ -1,6 +1,6 @@
 # Unraid Template Conventions
 
-This repo contains Unraid Docker templates in binhex-style XML format. Follow these conventions when creating or modifying templates.
+This repo contains Unraid Docker templates in XML format. Follow these conventions when creating or modifying templates.
 
 ## XML Structure
 
