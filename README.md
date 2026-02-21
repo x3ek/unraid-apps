@@ -11,13 +11,16 @@ Xeek's favorite Unraid Docker templates and builds.
 
 ## Usage
 
-Add this repo as a template repository in Unraid:
+Copy a template XML to your Unraid server's template directory:
 
-1. Go to the **Docker** tab
-2. Scroll to the bottom and add this URL to the template repositories field: `https://github.com/x3ek/unraid-apps`
-3. Click **Save**
+```bash
+# From Unraid terminal
+cd /boot/config/plugins/dockerMan/templates-user
+wget https://raw.githubusercontent.com/x3ek/unraid-apps/main/x3ek/speaches.xml
+wget https://raw.githubusercontent.com/x3ek/unraid-apps/main/x3ek/chatterbox-tts.xml
+```
 
-Templates will appear in the **Add Container** template dropdown.
+Then go to **Docker** > **Add Container** and select the template from the dropdown.
 
 ## Custom Builds
 
