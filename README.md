@@ -6,19 +6,18 @@ Xeek's favorite Unraid Docker templates and builds.
 
 | App | Description | Image |
 |-----|-------------|-------|
-| [Speaches](x3ek/speaches.xml) | GPU-accelerated speech-to-text and text-to-speech | `ghcr.io/speaches-ai/speaches` |
-| [Chatterbox TTS](x3ek/chatterbox-tts.xml) | Chatterbox text-to-speech API (with Blackwell support) | `ghcr.io/x3ek/chatterbox-tts-api` |
+| [Speaches](x3ek/speaches.xml) | Speech-to-text and text-to-speech server (GPU) | `ghcr.io/speaches-ai/speaches` |
+| [Chatterbox TTS](x3ek/chatterbox-tts.xml) | Text-to-speech API with voice cloning (GPU) | `ghcr.io/x3ek/chatterbox-tts-api` |
 
 ## Usage
 
 Add this repo as a template repository in Unraid:
 
-1. Go to **Docker** tab in Unraid
-2. Click **Template Repositories** at the bottom
-3. Add: `https://github.com/x3ek/unraid-apps`
-4. Click **Save**
+1. Go to the **Docker** tab
+2. Scroll to the bottom and add this URL to the template repositories field: `https://github.com/x3ek/unraid-apps`
+3. Click **Save**
 
-Templates will appear in the **Add Container** dropdown.
+Templates will appear in the **Add Container** template dropdown.
 
 ## Custom Builds
 
