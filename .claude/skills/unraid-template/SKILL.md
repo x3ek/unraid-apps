@@ -37,7 +37,6 @@ If the container uses NVIDIA GPUs (detected via DeviceRequests, NVIDIA env vars,
 
 - Set `<ExtraParams>--gpus all</ExtraParams>`
 - Add `<Requires>` noting NVIDIA GPU + Unraid NVIDIA plugin
-- Add `NVIDIA_VISIBLE_DEVICES` and `NVIDIA_DRIVER_CAPABILITIES` as advanced variables
 
 ## Custom Build Workflow
 

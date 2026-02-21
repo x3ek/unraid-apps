@@ -39,7 +39,5 @@
   <Config Name="Variable: Max Chunk Length" Target="MAX_CHUNK_LENGTH" Default="280" Mode="" Description="Maximum character length per chunk for long text" Type="Variable" Display="advanced" Required="false" Mask="false">280</Config>
   <Config Name="Variable: Max Total Length" Target="MAX_TOTAL_LENGTH" Default="3000" Mode="" Description="Maximum total character length for input text" Type="Variable" Display="advanced" Required="false" Mask="false">3000</Config>
   <Config Name="Variable: Use Multilingual Model" Target="USE_MULTILINGUAL_MODEL" Default="false" Mode="" Description="Enable multilingual TTS model (slower but supports more languages)" Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
-  <Config Name="Variable: NVIDIA Visible Devices" Target="NVIDIA_VISIBLE_DEVICES" Default="all" Mode="" Description="Which GPUs to expose (all, or device index like 0,1)" Type="Variable" Display="advanced" Required="false" Mask="false">all</Config>
-  <Config Name="Variable: NVIDIA Driver Capabilities" Target="NVIDIA_DRIVER_CAPABILITIES" Default="compute,utility" Mode="" Description="NVIDIA driver capabilities to expose" Type="Variable" Display="advanced" Required="false" Mask="false">compute,utility</Config>
   <Config Name="Variable: Timezone" Target="TZ" Default="America/New_York" Mode="" Description="Container timezone" Type="Variable" Display="advanced" Required="false" Mask="false">America/New_York</Config>
 </Container>

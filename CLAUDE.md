@@ -54,9 +54,6 @@ For containers that use NVIDIA GPUs:
 
 1. Set `<ExtraParams>--gpus all</ExtraParams>` (user can change to `--gpus "device=0"` etc.)
 2. Add `<Requires>` mentioning NVIDIA GPU and the Unraid NVIDIA plugin
-3. Include these as **advanced** variables:
-   - `NVIDIA_VISIBLE_DEVICES` = `all`
-   - `NVIDIA_DRIVER_CAPABILITIES` = `compute,utility`
 
 ## Generic Defaults
 

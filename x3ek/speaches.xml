@@ -30,7 +30,5 @@
   <Config Name="Variable: STT Model TTL" Target="STT_MODEL_TTL" Default="-1" Mode="" Description="Time-to-live for STT models in seconds (-1 = never unload)" Type="Variable" Display="always" Required="false" Mask="false">-1</Config>
   <Config Name="Variable: TTS Model TTL" Target="TTS_MODEL_TTL" Default="-1" Mode="" Description="Time-to-live for TTS models in seconds (-1 = never unload)" Type="Variable" Display="always" Required="false" Mask="false">-1</Config>
   <Config Name="Variable: Preload Models" Target="PRELOAD_MODELS" Default='["Systran/faster-distil-whisper-large-v3"]' Mode="" Description="JSON array of model names to preload at startup" Type="Variable" Display="always" Required="false" Mask="false">["Systran/faster-distil-whisper-large-v3"]</Config>
-  <Config Name="Variable: NVIDIA Visible Devices" Target="NVIDIA_VISIBLE_DEVICES" Default="all" Mode="" Description="Which GPUs to expose (all, or device index like 0,1)" Type="Variable" Display="advanced" Required="false" Mask="false">all</Config>
-  <Config Name="Variable: NVIDIA Driver Capabilities" Target="NVIDIA_DRIVER_CAPABILITIES" Default="compute,utility" Mode="" Description="NVIDIA driver capabilities to expose" Type="Variable" Display="advanced" Required="false" Mask="false">compute,utility</Config>
   <Config Name="Variable: Timezone" Target="TZ" Default="America/New_York" Mode="" Description="Container timezone" Type="Variable" Display="advanced" Required="false" Mask="false">America/New_York</Config>
 </Container>
