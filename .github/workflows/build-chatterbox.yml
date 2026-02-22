@@ -37,7 +37,6 @@ jobs:
       - name: Get current image revision label
         id: current
         run: |
-          # Try to pull the manifest and extract the revision label
           set +e
           docker pull ${{ env.IMAGE_NAME }}:latest 2>/dev/null
           if [ $? -eq 0 ]; then
@@ -74,10 +73,15 @@ jobs:
       matrix:
         include:
           - tag: latest
-            dockerfile: docker/Dockerfile
+            context: source
+            file: source/docker/Dockerfile
           - tag: blackwell
-            dockerfile: docker/Dockerfile.blackwell
+            context: .
+            file: apps/chatterbox-tts/Dockerfile.blackwell
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Clone upstream repo
         run: |
           git clone https://github.com/${{ env.UPSTREAM_REPO }}.git source
@@ -87,11 +91,11 @@ jobs:
       - name: Check for Dockerfile
         id: check_dockerfile
         run: |
-          if [ -f "source/${{ matrix.dockerfile }}" ]; then
+          if [ -f "${{ matrix.file }}" ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::${{ matrix.dockerfile }} not found in upstream — skipping ${{ matrix.tag }} build"
+            echo "::warning::${{ matrix.file }} not found — skipping ${{ matrix.tag }} build"
           fi
 
       - name: Set up Docker Buildx
@@ -110,8 +114,8 @@ jobs:
         if: steps.check_dockerfile.outputs.exists == 'true'
         uses: docker/build-push-action@v6
         with:
-          context: source
-          file: source/${{ matrix.dockerfile }}
+          context: ${{ matrix.context }}
+          file: ${{ matrix.file }}
           push: true
           tags: ${{ env.IMAGE_NAME }}:${{ matrix.tag }}
           labels: |
